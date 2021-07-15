@@ -1,15 +1,19 @@
 {
-  "name": "book-database",
+  "name": "server",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
-  "dependencies": {
-    "concurrently": "^5.0.0"
-  },
-  "devDependencies": {},
+  "main": "server.js",
   "scripts": {
-    "start": "concurrently \"cd server && node server.js\" \"cd client && npm start\""
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "server": "nodemon server.js"
   },
   "author": "dj",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
+    "mongoose": "^5.7.5",
+    "nodemon": "^1.19.4"
+  }
 }
