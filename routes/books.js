@@ -1,61 +1,55 @@
 const router = require("express").Router();
-let Book = require("../models/bookModel");
+let Book = require("../models/Book");
 
-router.get("/", (req, res) => {
-    Book.find()
-        .then(books => res.json(books))
-        .catch(err => res.status(400).json("Error:" + err));
+router.get('/', async (req, res) => {
+    try {
+        const books = await Book.find();
+        res.status(200).json(books);
+      }
+
+      catch (error) {
+        console.error(err);
+        res.status(500).send(err);
+      }
 });
 
-router.get("/:id", (req, res) => {
-    Book.findById(req.params.id)
-        .then(book => res.json(book))
-        .catch(err => res.status(400).json("Error: " + err));
-});
-// Add an update option route later
-router.put("/update/:id", (req, res) => {
-    Book.findById(req.params.id)
-        .then((book) => {
-            book.ISBN = req.body.ISBN;
-            book.title = req.body.title;
-            book.qty = req.body.qty;
-            book.publishingDate = req.body.publishingDate;
+router.post("/add", async (req, res) => {
+    try {
+        const {key, ISBN, title, author, firstPublishYear} = req.body;
 
-            book.save()
-                .then(() => {
-                    res.json("Book updated!")
-                })
-                .catch((err) => {
-                    res.status(400).json("Error: " + err);
-                })
-        })
-        .catch((err) => {
-            res.status(400).json("Error: " + err)
-        })
-})
+        const newBook = new Book({
+            key,
+            ISBN,
+            title,
+            author,
+            firstPublishYear,
+        });
 
-router.post("/add", (req, res) => {
-    const ISBN = req.body.ISBN;
-    const title = req.body.title;
-    const qty = req.body.qty;
-    const publishingDate = req.body.publishingDate;
-
-    const newBook = new Book({
-        ISBN,
-        title, 
-        qty,
-        publishingDate,
-    });
-
-    newBook.save()
-        .then(() => res.json("Book added to list..."))
-        .catch(err => res.status(400).json("Error: " + err));
+        const savedBook = await newBook.save();
+        res.json(savedBook);
+    } 
+    
+    catch (err) {
+        console.error(err);
+        res.status(500).send(err);
+    }
 });
 
-router.delete("/delete/:id", (req, res) => {
-    Book.findByIdAndDelete(req.params.id)
-        .then(() => res.json("Exercise deleted"))
-        .catch(err => res.status(400).json("Error: " + err));
+router.delete("/delete/:id", async (req, res) => {
+    try {
+        const book = await Book.findOne({_id: req.params.id});
+        if(!book) {
+            return res.status(400).json({errorMessage: 'No book found'});
+        }
+
+        const deletedBook = await Book.findByIdAndDelete(req.params.id);
+        res.json(deletedBook)
+    } 
+    
+    catch (err) {
+        console.error(err);
+        res.status(500).send(err);
+    }
 });
 
 module.exports = router;

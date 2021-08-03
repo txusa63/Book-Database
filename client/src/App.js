@@ -2,21 +2,21 @@ import React from 'react';
 import {BrowserRouter, Route} from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 
-import Navbar from "./components/Navbar";
-import Homepage from "./components/Homepage";
-import AddBooks from "./components/AddBooks";
-import OwnedBooks from "./components/OwnedBooks";
-import WantedBooks from "./components/WantedBooks";
+import {Homepage} from "./components/Homepage";
+import {Header} from './components/Header';
+import { Favorites } from './components/Favorites';
 
 function App() {
   return (
     <BrowserRouter>
-      <div className="container">
-        <Navbar/>
-        <Route path="/" exact component={Homepage}/>
-        <Route path="/addbooks" component={AddBooks}/>
-        <Route path="/ownedbooks" component={OwnedBooks}/>
-        <Route path="/wantedbooks" component={WantedBooks}/>
+      <Header />
+      <div style={{textAlign: "center"}}>
+        <Route path="/" exact >
+          <Homepage />
+        </Route>
+        <Route path='/favorites'>
+          <Favorites />
+        </Route>
       </div>
     </BrowserRouter>
   );

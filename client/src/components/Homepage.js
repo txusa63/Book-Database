@@ -1,13 +1,18 @@
-import React from "react";
-//import pic from "../../public/books1.png";
-function Homepage() {
+import React, { useState } from "react";
+import {Form} from "./Form";
+import { Results } from "./Results";
+
+export const Homepage = () => {
+    const [data, setData] = useState(undefined);
+
     return (
-        <div>
-            <h2>Welcome to your book database.</h2>
-            {/* <img src="/books1.png" width="" height=""/> */}
-            <img src="/books2.jpg" width="" height=""/>
+        <div >
+            <h4>Welcome to the OPEN LIBRARY Book Database</h4>
+            <img src="/openlibrary-logo.svg" alt='open library logo' width="15%" height="15%" />
+            <h3>Search By:</h3>
+            <Form setData={setData}/>
+            {data !== undefined ? (<Results data={data}/>): null}
         </div>
     );
 }
 
-export default Homepage;
