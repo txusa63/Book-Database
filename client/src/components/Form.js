@@ -24,7 +24,7 @@ export const Form = ({setData}) => {
                     results.title = titleVar;
                     // const author = await axios.get('https://openlibrary.org/' + resData.data['authors'][0]['key'] + '.json');
                     titleVar = titleVar.replace(/\s/g, '+');
-                    const titleRes = await axios.get('http://openlibrary.org/search.json?title=' + titleVar);
+                    const titleRes = await axios.get('https://openlibrary.org/search.json?title=' + titleVar);
                     if(titleRes.data) {
                         const data = titleRes.data['docs'][0];
                         results.author = data['author_name'];
@@ -43,7 +43,7 @@ export const Form = ({setData}) => {
             let results = {};
             if(title !== '') {
                 title = title.replace(/\s/g, '+');
-                const apiRes = await axios.get('http://openlibrary.org/search.json?title=' + title);
+                const apiRes = await axios.get('https://openlibrary.org/search.json?title=' + title);
                 if(apiRes.data) {
                     if(apiRes.data["numFound"] !== 0) {
                         const data = apiRes.data['docs'][0];
@@ -68,7 +68,7 @@ export const Form = ({setData}) => {
         if(searchValue === 'author') {
             if(author !== '') {
                 author = author.replace(/\s/g, '+');
-                const apiRes = await axios.get('http://openlibrary.org/search.json?author=' + author);
+                const apiRes = await axios.get('https://openlibrary.org/search.json?author=' + author);
                 if(apiRes.data) {
                     if(apiRes.data["numFound"] !== 0) {
                         const data = apiRes.data['docs'];
